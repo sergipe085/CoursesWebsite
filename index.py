@@ -111,13 +111,14 @@ def register():
 def register_course():
 
     if request.method == "POST":
-        print(request.form)
-        print(request.files)
+        request.form = dict(request.form)
+        request.files = dict(request.files)
+
         files = list(request.files)
         course_name = request.form.get("course_name")
         owner_id = session["user_id"]
 
-        db.execute("INSERT INTO courses(course_name, owner_id) VALUES(?, ?)", course_name, owner_id)
+        course_id = db.execute("INSERT INTO courses(course_name, owner_id) VALUES(?, ?)", course_name, owner_id)
 
         upload = True
         for i in files:
@@ -125,8 +126,14 @@ def register_course():
             if file.filename != "":
                 if file and allowed_file(file.filename):
                     filename, file_extension = os.path.splitext(file.filename)
+                    videoname = filename
                     filename = str(uuid4()) + file_extension
-                    #storage.child(f"courses/videos/{filename}").put(file.read())
+                    
+                    class_module_num = i.replace("file", "").split("/")
+                    
+                    db.execute("INSERT INTO videos(file_name, video_name, course_id, class_num, module_num) VALUES(?, ?, ?, ?, ?)", filename, videoname, course_id, class_module_num[0], class_module_num[1])
+
+                    storage.child(f"courses/videos/{filename}|{class_module_num[0]}|{class_module_num[1]}").put(file.read())
                     #db.execute("INSERT INTO videos(file_name, video_name) VALUES(?, ?)", filename, video_name)
                     upload = True
         if upload == True:
