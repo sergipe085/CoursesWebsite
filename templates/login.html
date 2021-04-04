@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block main %}
+    <h1 style="padding-bottom: 2rem;">Log in.</h1>
+    <form action="/login" method="post">
+        <div class="form-group mb-3">
+            <input name="username" autocomplete="off" type="text" class="form-control" placeholder="Username" aria-label="Username">
+        </div>
+        <div class="form-group">
+            <input name="password" autocomplete="off" type="password" class="form-control" placeholder="Password" aria-label="Username">
+        </div>
+        <p style="color: red; font-size: small;">{{ message }}</p>
+        <button class="btn btn-outline-primary" type="submit">Log In</button>
+        <p style="padding-top: 0.5rem; font-size: smaller;">Don't have an account yet? <a href="/register">Register now</a>.</p>
+    </form>
+{% endblock %}

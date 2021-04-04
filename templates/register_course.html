@@ -1,0 +1,97 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add Course
+{% endblock %}
+
+{% block main %}
+    <!-- <form class="input-group mb-3" action="/register_course" method="POST" enctype=multipart/form-data>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1"></span>
+            <input name="course_name" type="text" class="form-control" placeholder="Name" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
+        <div id="aulas">
+            <div id="aulas-container">
+                <input type="file" name="file" class="form-control" id="inputGroupFile02">
+            </div>
+        </div>         
+    </form> -->
+    <form action="/register_course" method="POST" enctype=multipart/form-data>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1"></span>
+            <input name="course_name" type="text" class="form-control" placeholder="Name" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
+        <div class="accordion modules" id="accordionExample">
+            <!-- <div class="accordion-item module1">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Module #1
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1"></span>
+                            <input name="module_name1" type="text" class="form-control" placeholder="Module Name" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                        <ol class="class-list">
+                        </ol>
+    
+                        <button onclick="addClass(1)" class="btn btn-outline-primary" type="button">Add</button>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+
+        <button onclick="addModule()" class="btn btn-outline-primary" type="button" style="margin-top: 1rem;">Add Module</button>
+
+        <button type="submit" class="btn btn-outline-primary" style="margin-top: 1rem;">Create Course</button>
+    </form>
+    
+    <script>
+        var indexFile = [];
+        var indexModule = 1;
+        function addClass(module) {
+            console.log(indexFile[module - 1])
+            classlist = document.querySelector(`.module${module} .class-list`)
+            classlist.innerHTML += `<li style="padding-top: 1rem;"><input name="file${indexFile[module - 1]}/${module}" type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload"></li>`
+            indexFile[module - 1] += 1;
+        }
+
+        function addModule() {
+            indexFile.push(0)
+            console.log(indexFile)
+            var indexModuleText = inWords(indexModule).split(" ").join("")
+            indexModuleText = capitalize(indexModuleText)
+
+            moduleHtml = `<div class="accordion-item module${indexModule}"><h2 class="accordion-header" id="heading${indexModuleText}"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${indexModuleText}" aria-expanded="true" aria-controls="collapse${indexModuleText}">Module #${indexModule}</button></h2><div id="collapse${indexModuleText}" class="accordion-collapse collapse show" aria-labelledby="heading${indexModuleText}" data-bs-parent="#accordionExample"><div class="accordion-body"><div class="input-group mb-3"><span class="input-group-text" id="basic-addon1"></span><input name="module_name${indexModule}" type="text" class="form-control" placeholder="Module Name" aria-label="Username" aria-describedby="basic-addon1"></div><ol class="class-list"></ol><button onclick="addClass(${indexModule})" class="btn btn-outline-primary" type="button">Add</button></div></div></div>`
+            modules = document.querySelector(".modules")
+            modules.innerHTML += moduleHtml;
+            indexModule += 1;
+        }
+
+        var a = ['','one ','two ','three ','four ', 'five ','six ','seven ','eight ','nine ','ten ','eleven ','twelve ','thirteen ','fourteen ','fifteen ','sixteen ','seventeen ','eighteen ','nineteen '];
+        var b = ['', '', 'twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety'];
+
+        function inWords (num) {
+            if ((num = num.toString()).length > 9) return 'overflow';
+            n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+            if (!n) return; var str = '';
+            str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
+            str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
+            str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
+            str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
+            str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
+            return str;
+        }
+
+        const capitalize = (s) => {
+            if (typeof s !== 'string') return ''
+            return s.charAt(0).toUpperCase() + s.slice(1)
+        }
+    </script>
+    
+    <h6>{{ message }}</h6>
+{% endblock %}
+
+

@@ -1,0 +1,13 @@
+main .form-control {
+    display: inline-block;
+    width: auto;
+}
+
+main {
+    overflow-x: auto;
+    text-align: center;
+}
+
+main img {
+    width: 100%;
+}
