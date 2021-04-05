@@ -47,7 +47,7 @@ config = {
 firebase = pyrebase.initialize_app(config)
 storage = firebase.storage()
 
-db = SQL("mysql+pymysql://u5jfx47lthq0q4kl:Q6IBeBoRqB7Is4v6l7Cn@bbr5utyterbfeqlunvty-mysql.services.clever-cloud.com:3306/bbr5utyterbfeqlunvty")
+db = SQL("mysql+pymysql://root:@localhost:3306/sitecursos")
 
 @app.route("/")
 @login_required
