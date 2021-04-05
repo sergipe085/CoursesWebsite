@@ -53,8 +53,10 @@
         var indexModule = 1;
         function addClass(module) {
             console.log(indexFile[module - 1])
+            var div = document.createElement("div")
+            div.innerHTML = `<li style="padding-top: 1rem;"><input name="file${indexFile[module - 1]}/${module}" type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload"></li>`
             classlist = document.querySelector(`.module${module} .class-list`)
-            classlist.innerHTML += `<li style="padding-top: 1rem;"><input name="file${indexFile[module - 1]}/${module}" type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload"></li>`
+            classlist.appendChild(div)
             indexFile[module - 1] += 1;
         }
 
