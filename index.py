@@ -141,6 +141,15 @@ def register_course():
 
     return render_template("register_course.html")
 
+@app.route("/search", methods=["GET", "POST"])
+@login_required
+def search():
+    search_input = request.form.get("search")
+
+    courses = db.execute("SELECT * FROM courses WHERE course_name LIKE ?", f"%{search_input}%")
+    print(courses)
+    return render_template("search.html", courses=courses)
+
 def upload(pathCloud, filename):
     path_local = os.path.join(app.config["UPLOAD_FOLDER"], filename)
     path_on_cloud = f"{pathCloud}/{filename}"

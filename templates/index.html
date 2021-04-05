@@ -5,9 +5,12 @@
 {% block main %}
     <h1>Home</h1>
 
-    <video class="video" width="640" height="480" controls>
-        
-    </video>
+    <form action="/search" method="POST">
+        <input name="search">
+        <input type="submit">
+    </form>
+
+    <video class="video" width="640" height="480" controls></video>
 
     <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-storage.js"></script>
