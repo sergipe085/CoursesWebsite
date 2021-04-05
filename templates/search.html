@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}Courses{% endblock %}
+
+{% block main %}
+    {% for course in courses %}
+        <div style="padding: 1rem;">
+            <h2>
+                {{ course.course_name }}
+            </h2>
+            <form action="/course" method="GET">
+                <input name="course_id" type="hidden" value="{{ course.course_id }}">
+                <input type="submit" value="View Course">
+            </form>
+        </div>
+    {% endfor %}      
+{% endblock %}
