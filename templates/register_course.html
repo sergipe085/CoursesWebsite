@@ -16,7 +16,7 @@
             </div>
         </div>         
     </form> -->
-    <form action="/register_course" method="POST" enctype=multipart/form-data>
+    <form id="form" action="/register_course" method="POST" enctype=multipart/form-data>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1"></span>
             <input name="course_name" type="text" class="form-control" placeholder="Name" aria-label="Username" aria-describedby="basic-addon1">
@@ -54,7 +54,7 @@
         function addClass(module) {
             console.log(indexFile[module - 1])
             var div = document.createElement("div")
-            div.innerHTML = `<li style="padding-top: 1rem;"><input name="file${indexFile[module - 1]}/${module}" type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload"></li>`
+            div.innerHTML = `<li style="padding-top: 1rem;"><input class="videoUploadFile" name="file${indexFile[module - 1]}/${module}" type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload"></li>`
             classlist = document.querySelector(`.module${module} .class-list`)
             classlist.appendChild(div)
             indexFile[module - 1] += 1;
@@ -95,6 +95,23 @@
             if (typeof s !== 'string') return ''
             return s.charAt(0).toUpperCase() + s.slice(1)
         }
+
+        const form = document.querySelector("#form")
+        form.addEventListener("submit", submitForm)
+
+        function submitForm(event) {
+            event.preventDefault()
+            const inputs = document.querySelectorAll("input")
+            for(i = 0; i < inputs.length; i++) {
+                if (inputs[i].value == "") {
+                    alert("Fill all inputs!")
+                    return false
+                }
+            }
+            
+            form.submit()
+        }
+
     </script>
     
     <h6>{{ message }}</h6>

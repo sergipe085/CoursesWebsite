@@ -113,8 +113,8 @@ def register_course():
     if request.method == "POST":
         request.form = dict(request.form)
         request.files = dict(request.files)
-
         files = list(request.files)
+        
         course_name = request.form.get("course_name")
         owner_id = session["user_id"]
 
@@ -134,7 +134,6 @@ def register_course():
                     db.execute("INSERT INTO videos(file_name, video_name, course_id, class_num, module_num) VALUES(?, ?, ?, ?, ?)", filename, videoname, course_id, class_module_num[0], class_module_num[1])
 
                     storage.child(f"courses/videos/{filename}|{class_module_num[0]}|{class_module_num[1]}").put(file.read())
-                    #db.execute("INSERT INTO videos(file_name, video_name) VALUES(?, ?)", filename, video_name)
                     upload = True
         if upload == True:
             return render_template("register_course.html", message="Sucess!")
@@ -148,4 +147,4 @@ def upload(pathCloud, filename):
     storage.child(path_on_cloud).put(path_local)
 
 def allowed_file(filename):
-    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS    
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS   
