@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ course.course_name }}{% endblock %}
+
+{% block main %}
+    <h1 style="margin-bottom: 3rem;">{{ course.course_name }}</h1>
+
+    <div style="margin-bottom: 3rem;" id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+            <img src="https://source.unsplash.com/random/1920x1080?sig=1" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+            <img src="https://source.unsplash.com/random/1920x1080?sig=1" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+            <img src="https://source.unsplash.com/random/1920x1080?sig=1" class="d-block w-100" alt="...">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <h6 style="margin-bottom: 3rem;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure sit, nemo accusamus quo, id ducimus, quibusdam doloremque praesentium hic libero placeat? Molestias eaque veniam iure perspiciatis laborum accusantium reprehenderit quidem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure sit, nemo accusamus quo, id ducimus, quibusdam doloremque praesentium hic libero placeat? Molestias eaque veniam iure perspiciatis laborum accusantium reprehenderit quidem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure sit, nemo accusamus quo, id ducimus, quibusdam doloremque praesentium hic libero placeat? Molestias eaque veniam iure perspiciatis laborum accusantium reprehenderit quidem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure sit, nemo accusamus quo, id ducimus, quibusdam doloremque praesentium hic libero placeat? Molestias eaque veniam iure perspiciatis laborum accusantium reprehenderit quidem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure sit, nemo accusamus quo, id ducimus, quibusdam doloremque praesentium hic libero placeat? Molestias eaque veniam iure perspiciatis laborum accusantium reprehenderit quidem?</h6>
+
+        {% for video in videos %}
+            <form id="form" action="/video">
+                <input type="hidden" name="video_id" value="{{ video.id }}">
+                <input type="submit" value="" style="background-image: url('https://source.unsplash.com/random/1920x1080?sig=1'); border:none; background-repeat:no-repeat;background-size:100% 100%; width: 480px; height: 300px; margin: 2rem;">
+            </form>
+        {% endfor %} 
+    
+    <script>
+        console.log("{{ videos[0].file_name }}")
+    </script>
+{% endblock %}
+

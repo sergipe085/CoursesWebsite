@@ -155,7 +155,11 @@ def search():
 def course():
     course_id = request.args.get("course_id")
 
-    return "TODO"
+    course = db.execute("SELECT * FROM courses WHERE course_id = ?", course_id)[0]
+    videos = db.execute("SELECT * FROM videos WHERE course_id = ?", course["course_id"])
+    print(videos)
+
+    return render_template("course.html", course=course, videos=videos)
 
 def upload(pathCloud, filename):
     path_local = os.path.join(app.config["UPLOAD_FOLDER"], filename)
