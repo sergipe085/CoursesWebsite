@@ -134,7 +134,7 @@ def register_course():
                     
                     db.execute("INSERT INTO videos(file_name, video_name, course_id, class_num, module_num) VALUES(?, ?, ?, ?, ?)", filename, videoname, course_id, class_module_num[0], class_module_num[1])
 
-                    storage.child(f"courses/videos/{filename}|{class_module_num[0]}|{class_module_num[1]}").put(file.read())
+                    storage.child(f"courses/videos/{filename}").put(file.read())
                     upload = True
         if upload == True:
             return render_template("register_course.html", message="Sucess!")
@@ -159,6 +159,13 @@ def course():
     videos = db.execute("SELECT * FROM videos WHERE course_id = ?", course["course_id"])
 
     return render_template("course.html", course=course, videos=videos)
+
+@app.route("/video")
+@login_required
+def video():
+    video_id = request.args.get("video_id")
+    video = db.execute("SELECT * FROM videos WHERE id = ?", video_id)[0]
+    return render_template("video.html", video=video)
 
 def upload(pathCloud, filename):
     path_local = os.path.join(app.config["UPLOAD_FOLDER"], filename)

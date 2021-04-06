@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ video.video_name }}{% endblock %}
+
+{% block main %}
+
+    <video class="video" width="1080" height="768" controls></video>
+
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-storage.js"></script>
+        <script>
+            var firebaseConfig = {
+                apiKey: "AIzaSyC0c1Ni5dqBYe4fx-j_j9RBVrfAbFRRtJs",
+                authDomain: "sitecursos-fb0f8.firebaseapp.com",
+                databaseURL: "https://sitecursos-fb0f8-default-rtdb.firebaseio.com",
+                projectId: "sitecursos-fb0f8",
+                storageBucket: "sitecursos-fb0f8.appspot.com",
+                messagingSenderId: "527634793144",
+                appId: "1:527634793144:web:6d943bc0ea3e4b4f9daa4d",
+                measurementId: "G-8QYPZ8BGE2"
+            };
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+
+            var storage = firebase.storage();
+            var storageRef = storage.ref();
+
+            var videoElement = document.querySelector(".video")
+            storageRef.child("courses/videos/{{ video.file_name }}").getDownloadURL().then(url => {
+                videoElement.innerHTML = `<source src="${url}" type="video/mp4">`
+            })
+        </script>
+{% endblock %}
+
+
+
