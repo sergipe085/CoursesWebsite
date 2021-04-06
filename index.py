@@ -30,7 +30,7 @@ Session(app)
 
 UPLOAD_FOLDER = "./videos_cache"
 # Configure file upload folder
-ALLOWED_EXTENSIONS = {"mp4"}
+ALLOWED_EXTENSIONS = ["mp4"]
 app.config["UPLOAD_FOLDER"]= UPLOAD_FOLDER
 
 # Configure pyrebase
