@@ -17,6 +17,7 @@
         </div>         
     </form> -->
     <form id="form" action="/register_course" method="POST" enctype=multipart/form-data>
+        <input type="hidden" name="module_count" id="module_count_input">
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1"></span>
             <input name="course_name" type="text" class="form-control" placeholder="Name" aria-label="Username" aria-describedby="basic-addon1">
@@ -51,6 +52,7 @@
     <script>
         var indexFile = [];
         var indexModule = 1;
+        var module_count = 0;
         function addClass(module) {
             console.log(indexFile[module - 1])
             var div = document.createElement("div")
@@ -62,7 +64,8 @@
 
         function addModule() {
             indexFile.push(0)
-            console.log(indexFile)
+            module_count += 1;
+
             var indexModuleText = inWords(indexModule).split(" ").join("")
             indexModuleText = capitalize(indexModuleText)
 
@@ -73,6 +76,9 @@
             moduleHtml = `<div class="accordion-item module${indexModule}"><h2 class="accordion-header" id="heading${indexModuleText}"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${indexModuleText}" aria-expanded="true" aria-controls="collapse${indexModuleText}">Module #${indexModule}</button></h2><div id="collapse${indexModuleText}" class="accordion-collapse collapse show" aria-labelledby="heading${indexModuleText}" data-bs-parent="#accordionExample"><div class="accordion-body"><div class="input-group mb-3"><span class="input-group-text" id="basic-addon1"></span><input name="module_name${indexModule}" type="text" class="form-control" placeholder="Module Name" aria-label="Username" aria-describedby="basic-addon1"></div><ol class="class-list"></ol><button onclick="addClass(${indexModule})" class="btn btn-outline-primary" type="button">Add</button></div></div></div>`
             modules = document.querySelector(".modules")
             modules.appendChild(newDiv);
+            
+            document.querySelector("#module_count_input").value = module_count;
+
             indexModule += 1;
         }
 
@@ -102,6 +108,10 @@
         function submitForm(event) {
             event.preventDefault()
             const inputs = document.querySelectorAll("input")
+            if (module_count == 0) {
+                alert("Add an module")
+                return false
+            }
             for(i = 0; i < inputs.length; i++) {
                 if (inputs[i].value == "") {
                     alert("Fill all inputs!")

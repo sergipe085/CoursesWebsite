@@ -34,15 +34,66 @@
 
     <h6 style="margin-bottom: 3rem;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure sit, nemo accusamus quo, id ducimus, quibusdam doloremque praesentium hic libero placeat? Molestias eaque veniam iure perspiciatis laborum accusantium reprehenderit quidem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure sit, nemo accusamus quo, id ducimus, quibusdam doloremque praesentium hic libero placeat? Molestias eaque veniam iure perspiciatis laborum accusantium reprehenderit quidem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure sit, nemo accusamus quo, id ducimus, quibusdam doloremque praesentium hic libero placeat? Molestias eaque veniam iure perspiciatis laborum accusantium reprehenderit quidem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure sit, nemo accusamus quo, id ducimus, quibusdam doloremque praesentium hic libero placeat? Molestias eaque veniam iure perspiciatis laborum accusantium reprehenderit quidem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure sit, nemo accusamus quo, id ducimus, quibusdam doloremque praesentium hic libero placeat? Molestias eaque veniam iure perspiciatis laborum accusantium reprehenderit quidem?</h6>
 
-        {% for video in videos %}
-            <form id="form" action="/video">
-                <input type="hidden" name="video_id" value="{{ video.id }}">
-                <input type="submit" value="" style="background-image: url('https://source.unsplash.com/random/1920x1080?sig=1'); border:none; background-repeat:no-repeat;background-size:100% 100%; width: 480px; height: 300px; margin: 2rem;">
-            </form>
-        {% endfor %} 
+    <div class="accordion" id="accordionExample">
+        
+    </div>
     
     <script>
-        console.log("{{ videos[0].file_name }}")
+        var a = ['','one ','two ','three ','four ', 'five ','six ','seven ','eight ','nine ','ten ','eleven ','twelve ','thirteen ','fourteen ','fifteen ','sixteen ','seventeen ','eighteen ','nineteen '];
+        var b = ['', '', 'twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety'];
+
+        var div = document.createElement("div")
+        div.className = "accordion-item"
+        var mainDiv = document.querySelector("#accordionExample")
+
+        videos = {{ videos|tojson }}
+        course = {{ course|tojson }}
+        console.log(course)
+        
+        for(i = 0; i < course.module_count; i++) {
+            var indexModuleText = inWords(i + 1).split(" ").join("")
+            indexModuleText = capitalize(indexModuleText)
+            div.innerHTML += `
+                <h2 class="accordion-header" id="heading${indexModuleText}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${indexModuleText}" aria-expanded="true" aria-controls="collapse${indexModuleText}">
+                        Module #${i + 1}
+                    </button>
+                </h2>
+                <div id="collapse${indexModuleText}" class="accordion-collapse collapse" aria-labelledby="heading${indexModuleText}" data-bs-parent="#accordionExample">
+                    <div class="accordion-body module${i + 1}">
+                        
+                    </div>
+                </div>`
+            mainDiv.appendChild(div)
+        }
+
+        videos.forEach(video => {
+            const myDiv = document.querySelector(`.module${video.module_num}`)
+            if (myDiv) {
+                myDiv.innerHTML += `
+                <form id="form" action="/video">
+                    <input type="hidden" name="video_id" value="${video.id}">
+                    <input type="submit" value="" style="background-image: url('https://source.unsplash.com/random/1920x1080?sig=1'); border:none; background-repeat:no-repeat;background-size:100% 100%; width: 480px; height: 300px; margin: 2rem;">
+                </form>`
+            }
+        });
+
+        function inWords (num) {
+            if ((num = num.toString()).length > 9) return 'overflow';
+            n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+            if (!n) return; var str = '';
+            str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
+            str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
+            str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
+            str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
+            str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
+            return str;
+        }
+
+        function capitalize(s) {
+            if (typeof s !== 'string') return ''
+            return s.charAt(0).toUpperCase() + s.slice(1)
+        }
     </script>
 {% endblock %}
 

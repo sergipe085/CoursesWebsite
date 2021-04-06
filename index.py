@@ -1,7 +1,7 @@
 import os
 from uuid import uuid4
 from cs50 import SQL
-from flask import Flask, flash, render_template, redirect, request, session
+from flask import Flask, flash, render_template, redirect, request, session, json
 from flask_session import Session
 from tempfile import mkdtemp
 from helpers import login_required
@@ -117,8 +117,9 @@ def register_course():
         
         course_name = request.form.get("course_name")
         owner_id = session["user_id"]
+        module_count = request.form.get("module_count")
 
-        course_id = db.execute("INSERT INTO courses(course_name, owner_id) VALUES(?, ?)", course_name, owner_id)
+        course_id = db.execute("INSERT INTO courses(course_name, module_count, owner_id) VALUES(?, ?, ?)", course_name, module_count, owner_id)
 
         upload = True
         for i in files:
@@ -147,7 +148,6 @@ def search():
     search_input = request.args.get("search")
 
     courses = db.execute("SELECT * FROM courses WHERE course_name LIKE ?", f"%{search_input}%")
-    print(courses)
     return render_template("search.html", courses=courses)
 
 @app.route("/course")
@@ -157,7 +157,6 @@ def course():
 
     course = db.execute("SELECT * FROM courses WHERE course_id = ?", course_id)[0]
     videos = db.execute("SELECT * FROM videos WHERE course_id = ?", course["course_id"])
-    print(videos)
 
     return render_template("course.html", course=course, videos=videos)
 
