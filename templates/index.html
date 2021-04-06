@@ -3,12 +3,11 @@
 {% block title %}Index{% endblock %}
 
 {% block main %}
-    <h1>Home</h1>
-
-    <form action="/search" method="GET">
-        <input name="search">
-        <input type="submit">
+    <form action="/search" method="GET" style="margin-bottom: 2rem;">
+        <input style="width: 90%;" name="search" placeholder="Course Name" class="form-control" id="exampleFormControlInput1">
+        <button type="submit" class="btn btn-primary">Search</button>
     </form>
+    <h1>Home</h1>
 {% endblock %}
 
 

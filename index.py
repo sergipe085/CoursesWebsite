@@ -32,6 +32,7 @@ UPLOAD_FOLDER = "./videos_cache"
 # Configure file upload folder
 ALLOWED_EXTENSIONS = ["mp4"]
 app.config["UPLOAD_FOLDER"]= UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 10240
 
 # Configure pyrebase
 config = {
