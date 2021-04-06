@@ -33,12 +33,6 @@ CoursesWebsite - A website that you can create your course and sell or buy a cou
 ### Video of the project (WIP)
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/fU6KIY_A-I8/0.jpg)](https://www.youtube.com/watch?v=fU6KIY_A-I8)
 
-<iframe width="560" height="315"
-src="https://www.youtube.com/embed/fU6KIY_A-I8" 
-frameborder="0" 
-allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-allowfullscreen></iframe>
-
 ## 🚀 How to run the project
 
 #### Clone the repository
