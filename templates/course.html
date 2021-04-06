@@ -71,9 +71,10 @@
             const myDiv = document.querySelector(`.module${video.module_num}`)
             if (myDiv) {
                 myDiv.innerHTML += `
-                <form id="form" action="/video">
+                <form id="form" action="/video" target="_blank" style="padding-top: 2rem;">
+                    <h4>${video.video_name}</h4>
                     <input type="hidden" name="video_id" value="${video.id}">
-                    <input type="submit" value="" style="background-image: url('https://source.unsplash.com/random/1920x1080?sig=1'); border:none; background-repeat:no-repeat;background-size:100% 100%; width: 480px; height: 300px; margin: 2rem;">
+                    <input type="submit" value="View Class">
                 </form>`
             }
         });

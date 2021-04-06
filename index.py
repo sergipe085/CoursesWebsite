@@ -165,7 +165,8 @@ def course():
 def video():
     video_id = request.args.get("video_id")
     video = db.execute("SELECT * FROM videos WHERE id = ?", video_id)[0]
-    return render_template("video.html", video=video)
+    videos = db.execute("SELECT * FROM videos WHERE id > ?", video_id)
+    return render_template("video.html", video=video, videos=videos)
 
 def upload(pathCloud, filename):
     path_local = os.path.join(app.config["UPLOAD_FOLDER"], filename)
