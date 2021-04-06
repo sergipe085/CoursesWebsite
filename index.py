@@ -47,7 +47,8 @@ config = {
 firebase = pyrebase.initialize_app(config)
 storage = firebase.storage()
 
-db = SQL("mysql+pymysql://root:@localhost:3306/sitecursos")
+#db = SQL("mysql+pymysql://root:@localhost:3306/sitecursos")
+db = SQL("mysql+pymysql://sql10403857:uTPYI6esSr@sql10.freemysqlhosting.net:3306/sql10403857")
 
 @app.route("/")
 @login_required
@@ -164,9 +165,11 @@ def course():
 @login_required
 def video():
     video_id = request.args.get("video_id")
+    course_id = request.args.get("course_id")
+    print(course_id)
     video = db.execute("SELECT * FROM videos WHERE id = ?", video_id)[0]
-    videos = db.execute("SELECT * FROM videos WHERE id > ?", video_id)
-    return render_template("video.html", video=video, videos=videos)
+    videos = db.execute("SELECT * FROM videos WHERE id > ? AND course_id = ?", video_id, course_id)
+    return render_template("video.html", video=video, videos=videos, course_id=course_id)
 
 def upload(pathCloud, filename):
     path_local = os.path.join(app.config["UPLOAD_FOLDER"], filename)
