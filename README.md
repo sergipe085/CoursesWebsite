@@ -14,12 +14,12 @@
     
 ## Table of Contents
 
-   * [Sobre o projeto](#-sobre-o-projeto)
+   * [About the project](#-about-the-project)
    * [Screenshots](#-screenshots)
-   * [Como executar o projeto](#-como-executar-o-projeto)
-   * [Tecnologias](#-tecnologias)
-   * [Como contribuir no projeto](#-como-contribuir-no-projeto)
-   * [Licença](#-licença)
+   * [How to run the project](#-how-to-run-the-project)
+   * [Technologies](#-tecnologias)
+   * [How to contribute to project](#-how-to-contribute-to-project)
+   * [License](#-license)
 
 ## 💻 About the project
 
