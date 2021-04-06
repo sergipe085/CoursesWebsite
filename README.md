@@ -30,7 +30,7 @@ CoursesWebsite - A website that you can create your course and sell or buy a cou
 <img src="" alt="" />
 <img src="" alt="" />
 -->
-
+### Video of the project (WIP)
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/fU6KIY_A-I8/0.jpg)](https://www.youtube.com/watch?v=fU6KIY_A-I8)
 
 ## 🚀 How to run the project
