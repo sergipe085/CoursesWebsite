@@ -123,6 +123,9 @@
         var storage = firebase.storage();
         var storageRef = storage.ref();
         
+        const VIDEO_EXTENSIONS = ["mp4", "mov"]
+        const IMAGE_EXTENSIONS = ["jpg", "png", "jpeg"]
+
         function testeAdd(event) {
             event.preventDefault()
             const inputsFile = document.querySelectorAll("input.videoUploadFile")
@@ -149,7 +152,7 @@
 
             for (i = 0; i < inputsFile.length; i++) {
                 const ext = inputsFile[i].files[0].name.split(".").pop()
-                if (ext != "mp4" && ext != "mov") {
+                if (!VIDEO_EXTENSIONS.includes(ext)) {
                     event.preventDefault()
                     alert("Please only .mp4 or .mov files")
                     return false;

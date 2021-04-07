@@ -31,7 +31,8 @@ Session(app)
 
 UPLOAD_FOLDER = "./videos_cache"
 # Configure file upload folder
-ALLOWED_EXTENSIONS = ["mp4"]
+VIDEO_EXTENSIONS = [".mp4", ".quicktime"]
+IMAGE_EXTENSIONS = [".jpg", ".jpeg", ".png"]
 app.config["UPLOAD_FOLDER"]= UPLOAD_FOLDER
 
 # Configure pyrebase
@@ -116,8 +117,6 @@ def register_course():
         request.form = dict(request.form)
         request.files = dict(request.files)
         files = list(request.files)
-        print(request.files)
-        print(files)
         
         course_name = request.form.get("course_name")
         owner_id = session["user_id"]
@@ -125,29 +124,23 @@ def register_course():
 
         course_id = db.execute("INSERT INTO courses(course_name, module_count, owner_id) VALUES(?, ?, ?)", course_name, module_count, owner_id)
 
-        upload = False
         for i in files:
             file = request.files[i]
-            print(i)
+
             a = re.split("_|@", i)
+            filename, file_extension = os.path.splitext(a[2])
 
             name = a[0]
             video_id = "_" + a[1]
-            filename, file_extension = os.path.splitext(a[2])
-            print(a[2])
-            print(file_extension)
-            print(filename)
             videoname = filename
             filename = video_id + file_extension
-            class_module_num = name.replace("file", "").split("/")
-            print(class_module_num)
 
-            db.execute("INSERT INTO videos(file_name, video_name, course_id, class_num, module_num) VALUES(?, ?, ?, ?, ?)", filename, videoname, course_id, class_module_num[0], class_module_num[1])
-            upload = True
-            
-        if upload == True:
-            return render_template("register_course.html", message="Sucess!")
-        return render_template("register_course.html", message="An error ocurred") 
+            if file_extension in VIDEO_EXTENSIONS:
+                class_module_num = name.replace("file", "").split("/")
+                db.execute("INSERT INTO videos(file_name, video_name, course_id, class_num, module_num) VALUES(?, ?, ?, ?, ?)", filename, videoname, course_id, class_module_num[0], class_module_num[1])
+            elif file_extension in IMAGE_EXTENSIONS:
+                print("image upload")
+        return redirect("/")
 
     return render_template("register_course.html")
 
@@ -174,7 +167,7 @@ def course():
 def video():
     video_id = request.args.get("video_id")
     course_id = request.args.get("course_id")
-    print(course_id)
+
     video = db.execute("SELECT * FROM videos WHERE id = ?", video_id)[0]
     videos = db.execute("SELECT * FROM videos WHERE id > ? AND course_id = ?", video_id, course_id)
     return render_template("video.html", video=video, videos=videos, course_id=course_id)
