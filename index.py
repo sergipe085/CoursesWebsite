@@ -1,4 +1,5 @@
 import os
+import re
 from uuid import uuid4
 from cs50 import SQL
 from flask import Flask, flash, render_template, redirect, request, session, json
@@ -116,6 +117,7 @@ def register_course():
         request.files = dict(request.files)
         files = list(request.files)
         print(request.files)
+        print(files)
         
         course_name = request.form.get("course_name")
         owner_id = session["user_id"]
@@ -126,20 +128,20 @@ def register_course():
         upload = False
         for i in files:
             file = request.files[i]
-            if file.filename != "":
-                if file and allowed_file(file.filename):
-                    a = i.split("_")
-                    name = a[0]
-                    video_id = "_" + a[1]
-                    
-                    filename, file_extension = os.path.splitext(file.filename)
-                    videoname = filename
-                    filename = video_id + file_extension
-                    
-                    class_module_num = name.replace("file", "").split("/")
-                    db.execute("INSERT INTO videos(file_name, video_name, course_id, class_num, module_num) VALUES(?, ?, ?, ?, ?)", filename, videoname, course_id, class_module_num[0], class_module_num[1])
-                    
-                    upload = True
+            print(i)
+            a = re.split("_|@", i)
+
+            name = a[0]
+            video_id = "_" + a[1]
+            filename, file_extension = os.path.splitext(a[2])
+            videoname = filename
+            filename = video_id + file_extension
+            class_module_num = name.replace("file", "").split("/")
+            print(class_module_num)
+
+            db.execute("INSERT INTO videos(file_name, video_name, course_id, class_num, module_num) VALUES(?, ?, ?, ?, ?)", filename, videoname, course_id, class_module_num[0], class_module_num[1])
+            upload = True
+            
         if upload == True:
             return render_template("register_course.html", message="Sucess!")
         return render_template("register_course.html", message="An error ocurred") 

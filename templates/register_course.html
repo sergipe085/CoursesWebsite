@@ -168,10 +168,10 @@
                 const fileext = file.name.split(".").pop();
                 size += file.size
                 const id = genId()
-
                 if (fileext == "mp4") {
                     storageRef.child(`courses/videos/${id}.${fileext}`).put(file)
-                    input.name += id;
+                    input.name += id + "@" + file.name;
+                    input.value = ""
                 } else {
                     input.name = ""
                     input.value = ""
