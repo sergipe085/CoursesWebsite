@@ -5,43 +5,17 @@
 {% endblock %}
 
 {% block main %}
-    <!-- <form class="input-group mb-3" action="/register_course" method="POST" enctype=multipart/form-data>
-        <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1"></span>
-            <input name="course_name" type="text" class="form-control" placeholder="Name" aria-label="Username" aria-describedby="basic-addon1">
-        </div>
-        <div id="aulas">
-            <div id="aulas-container">
-                <input type="file" name="file" class="form-control" id="inputGroupFile02">
-            </div>
-        </div>         
-    </form> -->
     <form id="form" action="/register_course" method="POST" enctype=multipart/form-data>
         <input type="hidden" name="module_count" id="module_count_input">
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1"></span>
             <input name="course_name" type="text" class="form-control" placeholder="Name" aria-label="Username" aria-describedby="basic-addon1">
         </div>
+        <div>
+            <h4>Thumb</h4>
+            <input name="thumb" type="file" accept="image/x-png,image/jpeg" class="form-control imageUploadFile" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">        </div>
         <div class="accordion modules" id="accordionExample">
-            <!-- <div class="accordion-item module1">
-                <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Module #1
-                    </button>
-                </h2>
-                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1"></span>
-                            <input name="module_name1" type="text" class="form-control" placeholder="Module Name" aria-label="Username" aria-describedby="basic-addon1">
-                        </div>
-                        <ol class="class-list">
-                        </ol>
-    
-                        <button onclick="addClass(1)" class="btn btn-outline-primary" type="button">Add</button>
-                    </div>
-                </div>
-            </div> -->
+            
         </div>
 
         <button onclick="addModule()" class="btn btn-outline-primary" type="button" style="margin-top: 1rem;">Add Module</button>
@@ -128,7 +102,8 @@
 
         function testeAdd(event) {
             event.preventDefault()
-            const inputsFile = document.querySelectorAll("input.videoUploadFile")
+            const videoInputs = document.querySelectorAll("input.videoUploadFile")
+            const imageInputs = document.querySelectorAll("input.imageUploadFile")
             const inputs = document.querySelectorAll("input")
 
             if (module_count == 0) {
@@ -144,14 +119,23 @@
                 }
             }
 
-            if (inputsFile.length == 0) {
+            if (videoInputs.length == 0) {
                 event.preventDefault()
                 alert("Please add at least one class")
                 return false
             }
 
-            for (i = 0; i < inputsFile.length; i++) {
-                const ext = inputsFile[i].files[0].name.split(".").pop()
+            for (i = 0; i < imageInputs.length; i++) {
+                const ext = imageInputs[i].files[0].name.split(".").pop()
+                if (!IMAGE_EXTENSIONS.includes(ext)) {
+                    event.preventDefault()
+                    alert("Please only jpg, jpeg or png files")
+                    return false;
+                }
+            }
+
+            for (i = 0; i < videoInputs.length; i++) {
+                const ext = videoInputs[i].files[0].name.split(".").pop()
                 if (!VIDEO_EXTENSIONS.includes(ext)) {
                     event.preventDefault()
                     alert("Please only .mp4 or .mov files")
@@ -165,21 +149,30 @@
             })
 
             var size = 0;
-            for (i = 0; i < inputsFile.length; i++)
+            for (i = 0; i < videoInputs.length; i++)
             {
-                const input = inputsFile[i]
+                const input = videoInputs[i]
                 const file = input.files[0];
                 const fileext = file.type.split("/").pop();
                 const name = file.name.split(".").shift().split('_').join('').split('@').join('').split('.').join('')
                 size += file.size
-                console.log(file)
                 const id = genId()
                 if (VIDEO_EXTENSIONS.includes(fileext)) {
                     storageRef.child(`courses/videos/${id}.${fileext}`).put(file)
+                }   
+                input.name += id + "@" + name + "." + fileext;
+                input.value = ""
+            }
+            for (i = 0; i < imageInputs.length; i++) {
+                const input = imageInputs[i]
+                const file = input.files[0];
+                const fileext = file.type.split("/").pop();
+                const name = file.name.split(".").shift().split('_').join('').split('@').join('').split('.').join('')
+                size += file.size
+                const id = genId()
+                if (IMAGE_EXTENSIONS.includes(fileext)) {
+                    storageRef.child(`courses/images/${id}.${fileext}`).put(file)
                 }
-                else {
-                    //image upload
-                }     
                 input.name += id + "@" + name + "." + fileext;
                 input.value = ""
             }

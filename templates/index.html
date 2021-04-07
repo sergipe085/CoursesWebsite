@@ -7,7 +7,20 @@
         <input style="width: 90%;" name="search" placeholder="Course Name" class="form-control" id="exampleFormControlInput1">
         <button type="submit" class="btn btn-primary">Search</button>
     </form>
-    <h1>Home</h1>
+    <div>
+        <h2>Your Courses</h2>
+        {% for course in courses %}
+            <div class="card" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ course.course_name }}</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="/course?course_id={{ course.course_id }}" class="btn btn-primary">View Course</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
 {% endblock %}
 
 

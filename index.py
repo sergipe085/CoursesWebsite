@@ -56,7 +56,8 @@ db = SQL("mysql+pymysql://sql10403857:uTPYI6esSr@sql10.freemysqlhosting.net:3306
 @app.route("/")
 @login_required
 def index():
-    return render_template("index.html")
+    my_courses = db.execute("SELECT * FROM courses WHERE course_id IN (SELECT course_id FROM courses_users WHERE user_id = ?)", session["user_id"])
+    return render_template("index.html", courses=my_courses)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -140,7 +141,7 @@ def register_course():
                 class_module_num = name.replace("file", "").split("/")
                 db.execute("INSERT INTO videos(file_name, video_name, course_id, class_num, module_num) VALUES(?, ?, ?, ?, ?)", filename, videoname, course_id, class_module_num[0], class_module_num[1])
             elif file_extension in IMAGE_EXTENSIONS:
-                print("image upload")
+                db.execute("INSERT INTO images(file_name, image_name, course_id) VALUES(?, ?, ?)", filename, videoname, course_id)
 
             db.execute("INSERT INTO courses_users(course_id, user_id) VALUES(?, ?)", course_id, session["user_id"])
         return redirect("/")
