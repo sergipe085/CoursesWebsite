@@ -44,12 +44,12 @@
             const module = videos[i].module_num
             const video_name = videos[i].video_name
             storageRef.child(`courses/videos/${videos[i].file_name}`).getDownloadURL().then(url => {
-                //videoElement.innerHTML = `<source src="${url}" type="video/mp4">`
+                const file_ext = videos[i].file_name.split(".").pop()
                 ol.innerHTML += ` 
                 <li style="list-style: none">
                     <a href="/video?video_id=${id}&course_id={{ course_id }}">
                         <video width="300" height="150">
-                            <source src="${url}#t=1" type="video/mp4">
+                            <source src="${url}#t=1" type="video/${file_ext}">
                         </video>
                     </a>
                     <h4>${video_name}</h4>
