@@ -151,7 +151,7 @@
                 const ext = inputsFile[i].files[0].name.split(".").pop()
                 if (ext != "mp4" && ext != "mov") {
                     event.preventDefault()
-                    alert("Please only video files")
+                    alert("Please only .mp4 or .mov files")
                     return false;
                 }
             }
