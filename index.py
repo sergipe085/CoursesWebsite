@@ -32,7 +32,6 @@ UPLOAD_FOLDER = "./videos_cache"
 # Configure file upload folder
 ALLOWED_EXTENSIONS = ["mp4"]
 app.config["UPLOAD_FOLDER"]= UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 10240
 
 # Configure pyrebase
 config = {
@@ -116,6 +115,7 @@ def register_course():
         request.form = dict(request.form)
         request.files = dict(request.files)
         files = list(request.files)
+        print(request.files)
         
         course_name = request.form.get("course_name")
         owner_id = session["user_id"]
@@ -123,20 +123,22 @@ def register_course():
 
         course_id = db.execute("INSERT INTO courses(course_name, module_count, owner_id) VALUES(?, ?, ?)", course_name, module_count, owner_id)
 
-        upload = True
+        upload = False
         for i in files:
             file = request.files[i]
             if file.filename != "":
                 if file and allowed_file(file.filename):
+                    a = i.split("_")
+                    name = a[0]
+                    video_id = "_" + a[1]
+                    
                     filename, file_extension = os.path.splitext(file.filename)
                     videoname = filename
-                    filename = str(uuid4()) + file_extension
+                    filename = video_id + file_extension
                     
-                    class_module_num = i.replace("file", "").split("/")
-                    
+                    class_module_num = name.replace("file", "").split("/")
                     db.execute("INSERT INTO videos(file_name, video_name, course_id, class_num, module_num) VALUES(?, ?, ?, ?, ?)", filename, videoname, course_id, class_module_num[0], class_module_num[1])
-
-                    storage.child(f"courses/videos/{filename}").put(file.read())
+                    
                     upload = True
         if upload == True:
             return render_template("register_course.html", message="Sucess!")
