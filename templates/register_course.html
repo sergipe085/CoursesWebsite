@@ -58,7 +58,7 @@
         function addClass(module) {
             console.log(indexFile[module - 1])
             var div = document.createElement("div")
-            div.innerHTML = `<li style="padding-top: 1rem;"><input accept="video/mp4" class="videoUploadFile" name="file${indexFile[module - 1]}/${module}" type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload"></li>`
+            div.innerHTML = `<li style="padding-top: 1rem;"><input accept="video/*" class="videoUploadFile" name="file${indexFile[module - 1]}/${module}" type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload"></li>`
             classlist = document.querySelector(`.module${module} .class-list`)
             classlist.appendChild(div)
             indexFile[module - 1] += 1;
@@ -148,9 +148,10 @@
             }
 
             for (i = 0; i < inputsFile.length; i++) {
-                if (inputsFile[i].files[0].name.split(".").pop() != "mp4") {
+                const ext = inputsFile[i].files[0].name.split(".").pop()
+                if (ext != "mp4" && ext != "mov") {
                     event.preventDefault()
-                    alert("Please only .mp4 files")
+                    alert("Please only video files")
                     return false;
                 }
             }
@@ -170,14 +171,9 @@
                 size += file.size
                 console.log(file)
                 const id = genId()
-                if (fileext == "mp4") {
-                    storageRef.child(`courses/videos/${id}.${fileext}`).put(file)
-                    input.name += id + "@" + name + "." + fileext;
-                    input.value = ""
-                } else {
-                    input.name = ""
-                    input.value = ""
-                }   
+                storageRef.child(`courses/videos/${id}.${fileext}`).put(file)
+                input.name += id + "@" + name + "." + fileext;
+                input.value = ""
             }
             
             size = size / 1000000
