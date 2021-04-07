@@ -7,61 +7,24 @@
     <h1>{{ video.video_name }}</h1>
 
     <video class="video" width="1050" height="590" controls>
-        
+        <source src="https://firebasestorage.googleapis.com/v0/b/sitecursos-fb0f8.appspot.com/o/courses%2Fvideos%2F{{ video.file_name }}?alt=media&token=829ed68d-a658-478f-934b-021d544ef719" type="video/mp4">
     </video>
 
-    <div id="next_videos"></div>
-    
-    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-storage.js"></script>
-    <script>
-        var firebaseConfig = {
-            apiKey: "AIzaSyC0c1Ni5dqBYe4fx-j_j9RBVrfAbFRRtJs",
-            authDomain: "sitecursos-fb0f8.firebaseapp.com",
-            databaseURL: "https://sitecursos-fb0f8-default-rtdb.firebaseio.com",
-            projectId: "sitecursos-fb0f8",
-            storageBucket: "sitecursos-fb0f8.appspot.com",
-            messagingSenderId: "527634793144",
-            appId: "1:527634793144:web:6d943bc0ea3e4b4f9daa4d",
-            measurementId: "G-8QYPZ8BGE2"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-
-        var storage = firebase.storage();
-        var storageRef = storage.ref();
-
-        var videoElement = document.querySelector(".video")
-        storageRef.child("courses/videos/{{ video.file_name }}").getDownloadURL().then(url => {
-            videoElement.innerHTML = `<source src="${url}" type="video/mp4">`
-        })
-
-        const videos = {{ videos|tojson }}
-        console.log(videos)
-        const ol = document.createElement("ol")
-        const next_videos = document.querySelector("#next_videos")
-        for (i = 0; i < videos.length; i++) {
-            const id = videos[i].id
-            const class_num = videos[i].class_num + 1
-            const module = videos[i].module_num
-            const video_name = videos[i].video_name
-            storageRef.child(`courses/videos/${videos[i].file_name}`).getDownloadURL().then(url => {
-                const file_ext = videos[i].file_name.split(".").pop()
-                ol.innerHTML += ` 
+    <div id="next_videos">
+        <ol>
+            {% for v in videos %}
                 <li style="list-style: none">
-                    <a href="/video?video_id=${id}&course_id={{ course_id }}">
+                    <a href="/video?video_id={{ v.id }}&course_id={{ course_id }}">
                         <video width="300" height="150">
-                            <source src="${url}#t=1" type="video/${file_ext}">
+                            <source src="https://firebasestorage.googleapis.com/v0/b/sitecursos-fb0f8.appspot.com/o/courses%2Fvideos%2F{{ v.file_name }}?alt=media&token=829ed68d-a658-478f-934b-021d544ef719#t=1" type="video/mp4">
                         </video>
                     </a>
-                    <h4>${video_name}</h4>
-                    <h5>Class ${class_num} / Module ${module}</h5>
+                    <h4>{{ v.video_name }}</h4>
+                    <h5>Class {{ v.class_num }} / Module {{ v.module_num }}</h5>
                 </li>
-                `
-                next_videos.appendChild(ol)
-            })
-        }
-    </script>
+            {% endfor %}     
+        </ol>
+    </div>
 {% endblock %}
 
 

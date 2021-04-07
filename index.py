@@ -118,14 +118,24 @@ def register_course():
     if request.method == "POST":
         request.form = dict(request.form)
         request.files = dict(request.files)
+        print(request.files)
         files = list(request.files)
-        
+        files.remove("thumb")
+        thumb = request.files["thumb"]
+
         course_name = request.form.get("course_name")
         owner_id = session["user_id"]
         module_count = request.form.get("module_count")
 
-        course_id = db.execute("INSERT INTO courses(course_name, module_count, owner_id) VALUES(?, ?, ?)", course_name, module_count, owner_id)
+        #Thumb Upload
+        thumb_ext = thumb.filename.split(".")
+        thumb_ext = thumb_ext[len(thumb_ext) - 1]
+        print(thumb_ext)
+        thumb.filename = "th" + str(uuid4()) + "." + thumb_ext
+        storage.child(f"courses/images/{thumb.filename}").put(thumb.read())
 
+        course_id = db.execute("INSERT INTO courses(course_name, thumb_file_name, module_count, owner_id) VALUES(?, ?, ?, ?)", course_name, thumb.filename, module_count, owner_id)
+        
         for i in files:
             file = request.files[i]
 

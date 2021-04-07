@@ -13,7 +13,7 @@
         </div>
         <div>
             <h4>Thumb</h4>
-            <input name="thumb" type="file" accept="image/x-png,image/jpeg" class="form-control imageUploadFile" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">        </div>
+            <input name="thumb" type="file" accept="image/x-png,image/jpeg" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">        </div>
         <div class="accordion modules" id="accordionExample">
             
         </div>
@@ -97,7 +97,7 @@
         var storage = firebase.storage();
         var storageRef = storage.ref();
         
-        const VIDEO_EXTENSIONS = ["mp4", "mov"]
+        const VIDEO_EXTENSIONS = ["mp4", "quicktime", "mov"]
         const IMAGE_EXTENSIONS = ["jpg", "png", "jpeg"]
 
         function testeAdd(event) {
