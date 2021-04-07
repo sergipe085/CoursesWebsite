@@ -9,6 +9,7 @@ from helpers import login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from pyrebase import pyrebase
+from functools import wraps
 
 app = Flask(__name__)
 
@@ -140,6 +141,8 @@ def register_course():
                 db.execute("INSERT INTO videos(file_name, video_name, course_id, class_num, module_num) VALUES(?, ?, ?, ?, ?)", filename, videoname, course_id, class_module_num[0], class_module_num[1])
             elif file_extension in IMAGE_EXTENSIONS:
                 print("image upload")
+
+            db.execute("INSERT INTO courses_users(course_id, user_id) VALUES(?, ?)", course_id, session["user_id"])
         return redirect("/")
 
     return render_template("register_course.html")
@@ -160,13 +163,16 @@ def course():
     course = db.execute("SELECT * FROM courses WHERE course_id = ?", course_id)[0]
     videos = db.execute("SELECT * FROM videos WHERE course_id = ?", course["course_id"])
 
-    return render_template("course.html", course=course, videos=videos)
+    return render_template("course.html", course=course, videos=videos, have_course=have_course(course_id))
 
 @app.route("/video")
 @login_required
 def video():
     video_id = request.args.get("video_id")
     course_id = request.args.get("course_id")
+
+    if not have_course(course_id):
+        return redirect(f"/course?course_id={course_id}")
 
     video = db.execute("SELECT * FROM videos WHERE id = ?", video_id)[0]
     videos = db.execute("SELECT * FROM videos WHERE id > ? AND course_id = ?", video_id, course_id)
@@ -179,3 +185,11 @@ def upload(pathCloud, filename):
 
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS   
+
+def have_course(course_id):
+    courses_ids = db.execute("SELECT course_id FROM courses_users WHERE user_id = ?", session["user_id"])
+
+    for id in courses_ids:
+        if str(id["course_id"]) == str(course_id):
+            return True
+    return False

@@ -16,10 +16,10 @@
             <img src="https://source.unsplash.com/random/1920x1080?sig=1" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
-            <img src="https://source.unsplash.com/random/1920x1080?sig=1" class="d-block w-100" alt="...">
+            <img src="https://source.unsplash.com/random/1920x1080?sig=2" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
-            <img src="https://source.unsplash.com/random/1920x1080?sig=1" class="d-block w-100" alt="...">
+            <img src="https://source.unsplash.com/random/1920x1080?sig=3" class="d-block w-100" alt="...">
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -34,9 +34,14 @@
 
     <h6 style="margin-bottom: 3rem;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure sit, nemo accusamus quo, id ducimus, quibusdam doloremque praesentium hic libero placeat? Molestias eaque veniam iure perspiciatis laborum accusantium reprehenderit quidem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure sit, nemo accusamus quo, id ducimus, quibusdam doloremque praesentium hic libero placeat? Molestias eaque veniam iure perspiciatis laborum accusantium reprehenderit quidem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure sit, nemo accusamus quo, id ducimus, quibusdam doloremque praesentium hic libero placeat? Molestias eaque veniam iure perspiciatis laborum accusantium reprehenderit quidem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure sit, nemo accusamus quo, id ducimus, quibusdam doloremque praesentium hic libero placeat? Molestias eaque veniam iure perspiciatis laborum accusantium reprehenderit quidem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure sit, nemo accusamus quo, id ducimus, quibusdam doloremque praesentium hic libero placeat? Molestias eaque veniam iure perspiciatis laborum accusantium reprehenderit quidem?</h6>
 
+    {% if have_course == false %}
+        <div style="margin: 2rem;">
+            <h3>You don't have this course</h3>
+            <button>Buy</button>
+        </div>
+    {% endif %}
+
     <div class="accordion" id="accordionExample">
-        
-    </div>
     
     <script>
         var a = ['','one ','two ','three ','four ', 'five ','six ','seven ','eight ','nine ','ten ','eleven ','twelve ','thirteen ','fourteen ','fifteen ','sixteen ','seventeen ','eighteen ','nineteen '];
@@ -73,9 +78,13 @@
                 myDiv.innerHTML += `
                 <form id="form" action="/video" target="_blank" style="padding-top: 2rem;">
                     <h4>${video.video_name}</h4>
-                    <input type="hidden" name="video_id" value="${video.id}">
-                    <input type="hidden" name="course_id" value="${course.course_id}">
-                    <input type="submit" value="View Class">
+                    {% if have_course == true %}
+                        <input type="hidden" name="video_id" value="${video.id}">
+                        <input type="hidden" name="course_id" value="${course.course_id}">
+                        <input type="submit" value="View Class">
+                    {% else %}
+                        <h5>Class Locked</h5>
+                    {% endif %}
                 </form>`
             }
         });

@@ -174,7 +174,12 @@
                 size += file.size
                 console.log(file)
                 const id = genId()
-                storageRef.child(`courses/videos/${id}.${fileext}`).put(file)
+                if (VIDEO_EXTENSIONS.includes(fileext)) {
+                    storageRef.child(`courses/videos/${id}.${fileext}`).put(file)
+                }
+                else {
+                    //image upload
+                }     
                 input.name += id + "@" + name + "." + fileext;
                 input.value = ""
             }
