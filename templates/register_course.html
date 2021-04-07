@@ -165,12 +165,14 @@
             {
                 const input = inputsFile[i]
                 const file = input.files[0];
-                const fileext = file.name.split(".").pop();
+                const fileext = file.type.split("/").pop();
+                const name = file.name.split(".").shift().split('_').join('').split('@').join('').split('.').join('')
                 size += file.size
+                console.log(file)
                 const id = genId()
                 if (fileext == "mp4") {
                     storageRef.child(`courses/videos/${id}.${fileext}`).put(file)
-                    input.name += id + "@" + file.name;
+                    input.name += id + "@" + name + "." + fileext;
                     input.value = ""
                 } else {
                     input.name = ""

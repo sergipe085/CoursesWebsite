@@ -134,6 +134,9 @@ def register_course():
             name = a[0]
             video_id = "_" + a[1]
             filename, file_extension = os.path.splitext(a[2])
+            print(a[2])
+            print(file_extension)
+            print(filename)
             videoname = filename
             filename = video_id + file_extension
             class_module_num = name.replace("file", "").split("/")
