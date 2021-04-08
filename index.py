@@ -177,6 +177,13 @@ def course():
 
     return render_template("course.html", course=course, videos=videos, have_course=have_course(course_id))
 
+@app.route("/buy", methods=["POST"])
+@login_required
+def buy():
+    course_id = request.form.get("course_id")
+    db.execute("INSERT INTO courses_users(course_id, user_id) VALUES(?, ?)", course_id, session["user_id"])
+    return redirect(f"/course?course_id={course_id}")
+
 @app.route("/video")
 @login_required
 def video():

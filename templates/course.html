@@ -32,12 +32,15 @@
         </button>
     </div>
 
-    <h6 style="margin-bottom: 3rem;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure sit, nemo accusamus quo, id ducimus, quibusdam doloremque praesentium hic libero placeat? Molestias eaque veniam iure perspiciatis laborum accusantium reprehenderit quidem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure sit, nemo accusamus quo, id ducimus, quibusdam doloremque praesentium hic libero placeat? Molestias eaque veniam iure perspiciatis laborum accusantium reprehenderit quidem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure sit, nemo accusamus quo, id ducimus, quibusdam doloremque praesentium hic libero placeat? Molestias eaque veniam iure perspiciatis laborum accusantium reprehenderit quidem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure sit, nemo accusamus quo, id ducimus, quibusdam doloremque praesentium hic libero placeat? Molestias eaque veniam iure perspiciatis laborum accusantium reprehenderit quidem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure sit, nemo accusamus quo, id ducimus, quibusdam doloremque praesentium hic libero placeat? Molestias eaque veniam iure perspiciatis laborum accusantium reprehenderit quidem?</h6>
+    <h6 style="margin-bottom: 3rem;">{{ course.course_description }}</h6>
 
     {% if have_course == false %}
         <div style="margin: 2rem;">
             <h3>You don't have this course</h3>
-            <button>Buy</button>
+            <form action="/buy" method="POST">
+                <button type="submit" class="btn btn-outline-primary">Buy</button>
+                <input type="hidden" name="course_id" value="{{ course.course_id }}">
+            </form>
         </div>
     {% endif %}
 
