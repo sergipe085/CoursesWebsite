@@ -6,9 +6,11 @@
 
     <h1>{{ video.video_name }}</h1>
 
-    <video class="video" width="1050" height="590" controls>
-        <source src="https://firebasestorage.googleapis.com/v0/b/sitecursos-fb0f8.appspot.com/o/courses%2Fvideos%2F{{ video.file_name }}?alt=media&token=829ed68d-a658-478f-934b-021d544ef719" type="video/mp4">
-    </video>
+    <div>
+        <video class="embed-responsive embed-responsive-16by9" controls style="width: 100%; height: auto;">
+            <source class="embed-responsive-item" src="https://firebasestorage.googleapis.com/v0/b/sitecursos-fb0f8.appspot.com/o/courses%2Fvideos%2F{{ video.file_name }}?alt=media&token=829ed68d-a658-478f-934b-021d544ef719" type="video/mp4" allowfullscreen>
+        </video>
+    </div>
 
     <div id="next_videos">
         <ol>
