@@ -3,15 +3,24 @@
 {% block title %}Courses{% endblock %}
 
 {% block main %}
-    {% for course in courses %}
-        <div style="padding: 1rem;">
-            <h2>
-                {{ course.course_name }}
-            </h2>
-            <form action="/course" method="GET">
-                <input name="course_id" type="hidden" value="{{ course.course_id }}">
-                <input type="submit" value="View Course">
-            </form>
+    <h1 class="mb-4">Resultado da Pesquisa</h1>
+    <div class="container">
+        <div class="row row-cols-3">
+            {% for course in courses %}
+                <div class="card mb-2 mt-2" style="width: 18rem; margin: 0.2rem;">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/sitecursos-fb0f8.appspot.com/o/courses%2Fimages%2F{{ course.thumb_file_name }}?alt=media&token=829ed68d-a658-478f-934b-021d544ef719" class="card-img-top" alt="Course Thumb" height="180" style="object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ course.course_name }}</h5>
+                        <hr>
+                        <p class="card-text">{{ course.course_description }}</p>
+                        <!-- <a href="/course?course_id={{ course.course_id }}" class="btn btn-primary">View Course</a> -->
+                        <form action="/course" method="GET">
+                            <input name="course_id" type="hidden" value="{{ course.course_id }}">
+                            <input type="submit" value="View Course" class="btn btn-primary">
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}      
+    </div>    
 {% endblock %}

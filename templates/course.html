@@ -77,11 +77,14 @@
             if (myDiv) {
                 myDiv.innerHTML += `
                 <form id="form" action="/video" target="_blank" style="padding-top: 2rem;">
+                    <video width="300" height="150">
+                        <source src="https://firebasestorage.googleapis.com/v0/b/sitecursos-fb0f8.appspot.com/o/courses%2Fvideos%2F${video.file_name}?alt=media&token=829ed68d-a658-478f-934b-021d544ef719#t=1" type="video/mp4">
+                    </video>
                     <h4>${video.video_name}</h4>
                     {% if have_course == true %}
                         <input type="hidden" name="video_id" value="${video.id}">
                         <input type="hidden" name="course_id" value="${course.course_id}">
-                        <input type="submit" value="View Class">
+                        <input type="submit" value="View Class" class="btn btn-outline-primary">
                     {% else %}
                         <h5>Class Locked</h5>
                     {% endif %}
