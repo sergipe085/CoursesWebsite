@@ -14,7 +14,7 @@
                 <img src="https://firebasestorage.googleapis.com/v0/b/sitecursos-fb0f8.appspot.com/o/courses%2Fimages%2F{{ course.thumb_file_name }}?alt=media&token=829ed68d-a658-478f-934b-021d544ef719" class="card-img-top" alt="Course Thumb">
                 <div class="card-body">
                     <h5 class="card-title">{{ course.course_name }}</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <p class="card-text">{{ course.course_description }}</p>
                     <a href="/course?course_id={{ course.course_id }}" class="btn btn-primary">View Course</a>
                 </div>
             </div>
